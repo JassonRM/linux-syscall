@@ -1,6 +1,7 @@
-/usr/bin/env bash
+#!/bin/bash
 
-\cp -rf custom-trace $1
+echo "Copying files to " $1
+cp -rfv custom-trace $1
 cd arch-x86-entry-syscalls
-\cp -f * $1/arch/x86/entry/syscalls
+cp -fv * $1/arch/x86/entry/syscalls
 cd ..

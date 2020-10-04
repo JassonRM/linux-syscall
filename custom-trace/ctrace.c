@@ -5,6 +5,6 @@
 
 SYSCALL_DEFINE0(ctrace)
 {
-  usleep_range(1000, 100000);
+  printk("Test");
   return 0;
 }
