@@ -1,1 +1,1 @@
-obj-y += custom-trace/
+obj-y += ctrace.o
