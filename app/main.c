@@ -1,32 +1,55 @@
 #include <stdio.h>
 #include <string.h>
+#include <termios.h>
+#include <unistd.h>
+
+void new_strace(char* mode_sel, char* cmd_path){
+  int mode = strcmp(mode_sel,"auto");
+  char path[100];
+
+  if(mode == 0){
+      printf("Modo automático\n");
+      snprintf(path, sizeof path, "%s%s%s", "strace -c -U name,calls,errors,avg-time,time ", cmd_path, " 2>&1");
+  }else{
+      printf("Modo interactivo\n");
+      snprintf(path, sizeof path, "%s%s%s", "strace ", cmd_path, " 2>&1");
+      printf("Press ENTER key to step\n");
+      mode = 1;
+  }
+  printf("Executing %s\n", path);
+
+  FILE *fp;
+  char line[1035];
+
+  // Executes the command
+  fp = popen(path, "r");
+  if (fp == NULL) {
+      printf("Failed to run command\n" );
+      return;
+  }
+
+  // Reads the output of the command
+  while (fgets(line, sizeof(line), fp) != NULL) {
+      if (mode == 1){
+          getchar();
+          fseek(stdin,0,SEEK_END);
+      }
+      printf("%s", line);
+      // Process each line here
+  }
+
+  pclose(fp);
+}
+
 
 int main( int argc, char *argv[] )
 {
     if(argc != 3){
-        printf("This program receives 2 arguments: mode and path");
-        return 1;
-    }
-    char path[100];
-    snprintf(path, sizeof path, "%s%s%s", "strace ", argv[2], " 2>&1");
-    printf("Executing %s\n", path);
-
-    FILE *fp;
-    char line[1035];
-
-    // Executes the command
-    fp = popen(path, "r");
-    if (fp == NULL) {
-        printf("Failed to run command\n" );
+        printf("This program receives 2 arguments: mode and path\n");
         return 1;
     }
 
-    // Reads the output of the command
-    while (fgets(line, sizeof(line), fp) != NULL) {
-        printf("%s", line);
-        // Process each line here
-    }
+    new_strace(argv[1],argv[2]);
 
-    pclose(fp);
     return 0;
 }

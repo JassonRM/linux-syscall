@@ -1,0 +1,3 @@
+*.out
+app/CMakeCache.txt
+app/CMakeFiles
