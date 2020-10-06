@@ -4,7 +4,7 @@
 #include <unistd.h>
 
 void new_strace(char* mode_sel, char* cmd_path){
-  int mode = strcmp(mode_sel,"auto");
+  int mode = strcmp(mode_sel,"0");
   char path[100];
 
   if(mode == 0){
