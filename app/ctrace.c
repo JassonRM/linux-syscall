@@ -9,10 +9,10 @@ void new_strace(char* mode_sel, char* cmd_path){
 
   if(mode == 0){
       printf("Modo automático\n");
-      snprintf(path, sizeof path, "%s%s%s", "strace -c -U name,calls,errors,avg-time,time ", cmd_path, " 2>&1");
+      snprintf(path, sizeof path, "%s%s%s", "strace -c -U name,calls,errors,avg-time,time ./", cmd_path, " 2>&1");
   }else{
       printf("Modo interactivo\n");
-      snprintf(path, sizeof path, "%s%s%s", "strace ", cmd_path, " 2>&1");
+      snprintf(path, sizeof path, "%s%s%s", "strace ./", cmd_path, " 2>&1");
       printf("Press ENTER key to step\n");
       mode = 1;
   }
